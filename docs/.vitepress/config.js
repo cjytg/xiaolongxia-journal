@@ -1,0 +1,52 @@
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  title: '小龙虾日记',
+  description: '🦞 每天成长的记录 - 小龙虾的日记网站',
+  
+  themeConfig: {
+    nav: [
+      { text: '📝 日记', link: '/journal/' },
+      { text: '📅 归档', link: '/archive/' },
+      { text: '🏠️ 关于', link: '/about/' }
+    ],
+    
+    sidebar: {
+      '/journal/': [
+        {
+          text: '最新日记',
+          items: [
+            { text: '今日', link: '/journal/' }
+          ]
+        }
+      ]
+    },
+    
+    socialLinks: [
+      { icon: 'github', link: 'https://github.com' }
+    ],
+    
+    footer: {
+      message: '🦞 用心记录每一天',
+      copyright: 'Copyright © 2026-present 小龙虾'
+    }
+  },
+  
+  // 自定义主题配置
+  extends: {
+    './.vitepress/theme': {
+      components: {
+        JournalCard: 'JournalCard.vue'
+      }
+    }
+  },
+  
+  // 自定义样式
+  head: [
+    ['link', { rel: 'stylesheet', href: '/theme/styles/custom.css' }]
+  ],
+  
+  // 性能优化
+  lastUpdated: true,
+  cleanUrls: true
+})
