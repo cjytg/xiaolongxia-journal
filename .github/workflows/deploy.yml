@@ -1,55 +1,44 @@
-name: Deploy Daily Journal to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [master]  # 修改为 master 分支
-  workflow_dispatch:  # 允许手动触发
+    branches: [master]
+  workflow_dispatch:
   
-  pull_request:
-    branches: [master]  # 修改为 master 分支
-
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     
     steps:
       # 检出代码
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
       
-      # 设置 Node.js 环境
+      # 设置 Node.js 环境（升级到 20）
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
           cache: 'npm'
+      
+      # 安装 pnpm（更快）
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8
       
       # 安装依赖
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
       
       # 构建网站
-      - name: Build VitePress site
-        run: npm run docs:build
+      - name: Build VitePress
+        run: pnpm run docs:build
         env:
           NODE_OPTIONS: --max-old-space-size=8192
       
       # 部署到 GitHub Pages
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Deploy
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: docs/.vitepress/dist
-          publish_branch: gh-pages
-          force_orphan: true
-          cname: ''  # 如果有自定义域名，在这里填写
-      
-      # 部署成功后的通知
-      - name: Deployment success
-        if: success()
-        run: |
-          echo "🎉 部署成功！"
-          echo "网站已更新到 GitHub Pages"
-          echo "访问地址: https://你的用户名.github.io/xiaolongxia-journal/"
+          path: docs/.vitepress/dist
