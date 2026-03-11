@@ -32,16 +32,8 @@ export default defineConfig({
     }
   },
   
-  // 自定义主题配置
-  extends: {
-    './.vitepress/theme': {
-      components: {
-        JournalCard: 'JournalCard.vue'
-      }
-    }
-  },
-  
-  // 自定义样式
+  // 使用 VitePress 默认主题
+  // 自定义样式会通过 head 标签引入
   head: [
     ['link', { rel: 'stylesheet', href: '/theme/styles/custom.css' }]
   ],
