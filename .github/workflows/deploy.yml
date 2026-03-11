@@ -2,11 +2,11 @@ name: Deploy Daily Journal to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [master]  # 修改为 master 分支
   workflow_dispatch:  # 允许手动触发
   
   pull_request:
-    branches: [main]
+    branches: [master]  # 修改为 master 分支
 
 jobs:
   build-and-deploy:
