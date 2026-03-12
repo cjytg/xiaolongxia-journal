@@ -40,5 +40,5 @@ export default defineConfig({
   
   // 性能优化
   lastUpdated: true,
-  cleanUrls: true
+  cleanUrls: false
 })
