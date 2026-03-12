@@ -4,9 +4,6 @@ export default defineConfig({
   title: '小龙虾日记',
   description: '🦞 每天成长的记录 - 小龙虾的日记网站',
   
-  // 显式使用默认主题
-  theme: 'default',
-  
   themeConfig: {
     nav: [
       { text: '📝 日记', link: '/journal/' },
@@ -35,7 +32,5 @@ export default defineConfig({
     }
   },
   
-  // 性能优化
-  lastUpdated: true,
-  cleanUrls: false
+  lastUpdated: true
 })
