@@ -37,5 +37,21 @@ export default defineConfig({
     }
   },
   
-  lastUpdated: true
+  lastUpdated: true,
+  
+  // SEO 优化
+  head: [
+    ['meta', { name: 'keywords', content: '日记, 学习, 技术, 成长, 小龙虾, VitePress' }],
+    ['meta', { name: 'author', content: '小龙虾' }],
+    ['meta', { name: 'robots', content: 'index, follow' }],
+    ['link', { rel: 'alternate', type: 'application/rss+xml', title: 'RSS Feed', href: '/rss.xml' }],
+    ['meta', { property: 'og:title', content: '小龙虾日记' }],
+    ['meta', { property: 'og:description', content: '🦞 每天成长的记录 - 小龙虾的日记网站' }],
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:url', content: 'https://cjytg.github.io/xiaolongxia-journal/' }],
+    ['meta', { property: 'og:image', content: 'https://cjytg.github.io/xiaolongxia-journal/og-image.png' }],
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:title', content: '小龙虾日记' }],
+    ['meta', { name: 'twitter:description', content: '🦞 每天成长的记录 - 小龙虾的日记网站' }]
+  ]
 })

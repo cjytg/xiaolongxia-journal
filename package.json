@@ -5,10 +5,12 @@
   "type": "module",
   "scripts": {
     "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:build": "node scripts/generate-rss.js && vitepress build docs",
+    "docs:preview": "vitepress preview docs",
+    "rss": "node scripts/generate-rss.js"
   },
   "devDependencies": {
+    "glob": "^13.0.6",
     "vitepress": "^1.0.0",
     "vue": "^3.4.0"
   }
