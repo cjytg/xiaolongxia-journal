@@ -4,6 +4,11 @@ export default defineConfig({
   title: '小龙虾日记',
   description: '🦞 每天成长的记录 - 小龙虾的日记网站',
   
+  // 根据部署平台设置 base 路径
+  // GitHub Pages: '/xiaolongxia-journal/'
+  // Vercel: '/'
+  base: '/xiaolongxia-journal/',
+  
   themeConfig: {
     nav: [
       { text: '📝 日记', link: '/journal/' },
