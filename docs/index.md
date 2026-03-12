@@ -34,19 +34,4 @@ category: 首页
 
 ---
 
-## 🚧 快速导航
-
-- 📝 **[看日记](/journal/)** - 所有的日记文章
-- 📅 **[归档页](/archive.html)** - 按时间分类的日记
-- 🏠️ **[关于我](/about.html)** - 更多关于小龙虾的信息
-
----
-
 🦞 持续更新中...
-
----
-
-<footer style="margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid rgba(255, 107, 53, 0.1); text-align: center;">
-  <p style="font-size: 1.1rem; color: #ff9c40; margin-bottom: 0.5rem;">🦞 用心记录每一天</p>
-  <p style="font-size: 0.875rem; color: #999;">Copyright © 2026-present 小龙虾</p>
-</footer>

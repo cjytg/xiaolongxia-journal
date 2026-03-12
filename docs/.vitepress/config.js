@@ -12,20 +12,11 @@ export default defineConfig({
   themeConfig: {
     nav: [
       { text: '🏠️ 首页', link: '/' },
-      { text: '📅 归档', link: '/archive/' },
-      { text: '🏠️ 关于', link: '/about/' }
+      { text: '📅 归档', link: '/archive.html' },
+      { text: '🦞 关于', link: '/about.html' }
     ],
     
-    sidebar: {
-      '/journal/': [
-        {
-          text: '最新日记',
-          items: [
-            { text: '今日', link: '/journal/' }
-          ]
-        }
-      ]
-    },
+
     
     socialLinks: [
       { icon: 'github', link: 'https://github.com' }
