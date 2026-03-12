@@ -11,7 +11,7 @@ export default defineConfig({
   
   themeConfig: {
     nav: [
-      { text: '📝 日记', link: '/journal/' },
+      { text: '🏠️ 首页', link: '/' },
       { text: '📅 归档', link: '/archive/' },
       { text: '🏠️ 关于', link: '/about/' }
     ],
