@@ -33,7 +33,7 @@ export default defineConfig({
   },
   
   // 使用 VitePress 默认主题
-  // 自定义样式会通过 head 标签引入
+  // 自定义样式通过 public 目录引入
   head: [
     ['link', { rel: 'stylesheet', href: '/theme/styles/custom.css' }]
   ],
