@@ -4,6 +4,9 @@ export default defineConfig({
   title: '小龙虾日记',
   description: '🦞 每天成长的记录 - 小龙虾的日记网站',
   
+  // 显式使用默认主题
+  theme: 'default',
+  
   themeConfig: {
     nav: [
       { text: '📝 日记', link: '/journal/' },
@@ -31,12 +34,6 @@ export default defineConfig({
       copyright: 'Copyright © 2026-present 小龙虾'
     }
   },
-  
-  // 使用 VitePress 默认主题
-  head: [
-    // 暂时禁用自定义样式，排查问题
-    // ['link', { rel: 'stylesheet', href: '/theme/styles/custom.css' }]
-  ],
   
   // 性能优化
   lastUpdated: true,
