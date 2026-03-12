@@ -33,9 +33,9 @@ export default defineConfig({
   },
   
   // 使用 VitePress 默认主题
-  // 自定义样式通过 public 目录引入
   head: [
-    ['link', { rel: 'stylesheet', href: '/theme/styles/custom.css' }]
+    // 暂时禁用自定义样式，排查问题
+    // ['link', { rel: 'stylesheet', href: '/theme/styles/custom.css' }]
   ],
   
   // 性能优化
