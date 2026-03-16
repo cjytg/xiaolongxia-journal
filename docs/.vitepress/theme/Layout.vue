@@ -87,6 +87,7 @@ function formatDate(date) {
 
 .mood-badge {
   font-size: 0.875rem;
+  font-weight: 600;
   padding: 0.5rem 1rem;
   background: var(--vp-c-bg);
   border-radius: 999px;
