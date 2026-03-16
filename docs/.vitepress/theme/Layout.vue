@@ -59,9 +59,9 @@ function formatDate(date) {
 }
 
 .journal-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--vp-c-text-1);
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--vp-c-brand-1);
   margin-bottom: 0.75rem;
   line-height: 1.4;
   padding-bottom: 0.75rem;
@@ -86,8 +86,8 @@ function formatDate(date) {
 }
 
 .mood-badge {
-  font-size: 1.25rem;
-  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
   background: var(--vp-c-bg);
   border-radius: 999px;
 }
@@ -121,12 +121,22 @@ function formatDate(date) {
   }
   
   .journal-title {
-    font-size: 1.125rem;
+    font-size: 1.25rem;
   }
   
   .date-badge {
     font-size: 0.75rem;
     padding: 0.375rem 0.75rem;
+  }
+  
+  .mood-badge {
+    font-size: 0.75rem;
+    padding: 0.375rem 0.75rem;
+  }
+  
+  .tag {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.625rem;
   }
 }
 </style>
