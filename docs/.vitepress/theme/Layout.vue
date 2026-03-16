@@ -58,6 +58,16 @@ function formatDate(date) {
   border-left: 4px solid var(--vp-c-brand-1);
 }
 
+.journal-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--vp-c-text-1);
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+
 .journal-header {
   display: flex;
   align-items: center;
@@ -111,7 +121,7 @@ function formatDate(date) {
   }
   
   .journal-title {
-    font-size: 1.5rem;
+    font-size: 1.125rem;
   }
   
   .date-badge {
