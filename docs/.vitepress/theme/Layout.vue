@@ -60,7 +60,7 @@ function formatDate(date) {
 
 .journal-title {
   font-size: 1.5rem;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--vp-c-brand-1);
   margin-bottom: 0.75rem;
   line-height: 1.4;
