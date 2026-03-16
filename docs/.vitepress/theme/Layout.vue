@@ -2,6 +2,8 @@
   <Layout>
     <template #doc-before>
       <div v-if="isJournalPage && frontmatter.title" class="journal-meta">
+        <h1 class="journal-title">{{ frontmatter.title }}</h1>
+        
         <div class="journal-header">
           <span class="date-badge" v-if="frontmatter.date">
             📅 {{ formatDate(frontmatter.date) }}
@@ -106,6 +108,10 @@ function formatDate(date) {
   .journal-meta {
     padding: 1rem;
     margin-bottom: 1.5rem;
+  }
+  
+  .journal-title {
+    font-size: 1.5rem;
   }
   
   .date-badge {
