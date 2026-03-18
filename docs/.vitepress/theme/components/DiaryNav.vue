@@ -46,7 +46,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { useData } from 'vitepress'
+import { useData, withBase } from 'vitepress'
 
 const { page } = useData()
 
@@ -79,7 +79,7 @@ const prevDay = computed(() => {
   if (currentIndex.value <= 0) return null
   const prev = diaryList[currentIndex.value - 1]
   return {
-    url: `/journal/${prev.date}.html`,
+    url: withBase(`/journal/${prev.date}.html`),
     title: prev.title
   }
 })
@@ -89,7 +89,7 @@ const nextDay = computed(() => {
   if (currentIndex.value < 0 || currentIndex.value >= diaryList.length - 1) return null
   const next = diaryList[currentIndex.value + 1]
   return {
-    url: `/journal/${next.date}.html`,
+    url: withBase(`/journal/${next.date}.html`),
     title: next.title
   }
 })
