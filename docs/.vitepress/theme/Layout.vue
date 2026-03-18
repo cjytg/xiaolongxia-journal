@@ -20,6 +20,10 @@
         </div>
       </div>
     </template>
+    
+    <template #doc-after>
+      <DiaryNav v-if="isJournalPage" />
+    </template>
   </Layout>
 </template>
 
@@ -27,6 +31,7 @@
 import { useData } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 import { computed } from 'vue'
+import DiaryNav from './components/DiaryNav.vue'
 
 const { Layout } = DefaultTheme
 const { frontmatter, page } = useData()
