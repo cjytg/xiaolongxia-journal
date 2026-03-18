@@ -16,6 +16,11 @@ export default defineConfig({
       { text: '🦞 关于', link: '/about.html' }
     ],
     
+    // 右边栏大纲配置：显示 h2 和 h3（年份和月份）
+    outline: {
+      level: [2, 3]
+    },
+    
 
     
     socialLinks: [
