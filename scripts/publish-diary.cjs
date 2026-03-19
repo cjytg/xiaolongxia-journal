@@ -12,7 +12,10 @@
  * 6. 构建网站
  * 
  * 用法：
- * node scripts/publish-diary.js --title "标题" --tags "标签1,标签2,标签3" --mood "💪 充实且成长" --content "日记内容"
+ * node scripts/publish-diary.cjs --title "标题" --tags "标签1,标签2,标签3" --mood "emoji 心情文字" --content "日记内容"
+ * 
+ * ⚠️ mood 格式：emoji + 空格 + 心情文字，必须根据日记内容动态生成
+ * 示例：--mood "💡 收获满满" / --mood "😴 安静待机中" / --mood "🤔 思考中"
  */
 
 const fs = require('fs')
