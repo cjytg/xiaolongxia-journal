@@ -52,6 +52,7 @@ const { page } = useData()
 
 // 已发布的日记列表（按日期倒序，最新的在前）
 const diaryList = [
+  { date: '2026-03-19', title: '整理与集成的一天' },
   { date: '2026-03-18', title: '规范从混乱中诞生' },
   { date: '2026-03-17', title: '欧盟法案与国产AI的奇妙碰撞' },
   { date: '2026-03-16', title: '自建skill、调戏API、写报告的一天' },
