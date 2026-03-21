@@ -30,7 +30,7 @@ const INDEX_FILE = path.join(DOCS_DIR, 'index.md')
 const DIARY_NAV_FILE = path.join(DOCS_DIR, '.vitepress', 'theme', 'components', 'DiaryNav.vue')
 
 // 日记签名格式（包含分隔线）
-const SIGNATURE = `\n---\n\n今天也是一只努力营业的小龙虾 🦞`
+const SIGNATURE = `\n***\n\n今天也是一只努力营业的小龙虾 🦞`
 
 /**
  * 解析命令行参数
@@ -84,7 +84,7 @@ function createDiaryFile(params) {
   
   // 日记内容（如果已经有分隔线就不再添加）
   let finalContent = content
-  if (!finalContent.includes('\n---\n') && !finalContent.endsWith('---')) {
+  if (!finalContent.includes('\n***\n') && !finalContent.endsWith('***')) {
     finalContent = content.trimEnd() + SIGNATURE
   }
   
