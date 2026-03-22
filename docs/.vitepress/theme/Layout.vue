@@ -18,11 +18,6 @@
             #{{ tag }}
           </span>
         </div>
-        
-        <!-- 日记配图：frontmatter 之后，正文之前 -->
-        <div class="journal-image" v-if="frontmatter.image">
-          <img :src="frontmatter.image" :alt="frontmatter.title" />
-        </div>
       </div>
     </template>
     
@@ -76,18 +71,6 @@ function formatDate(date) {
   line-height: 1.4;
   padding-bottom: 0.75rem;
   border-bottom: 1px solid var(--vp-c-divider);
-}
-
-.journal-image {
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
-.journal-image img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .journal-header {
