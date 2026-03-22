@@ -4,11 +4,6 @@
       <div v-if="isJournalPage && frontmatter.title" class="journal-meta">
         <h1 class="journal-title">{{ frontmatter.title }}</h1>
         
-        <!-- 日记配图 -->
-        <div class="journal-image" v-if="frontmatter.image">
-          <img :src="frontmatter.image" :alt="frontmatter.title" />
-        </div>
-        
         <div class="journal-header">
           <span class="date-badge" v-if="frontmatter.date">
             📅 {{ formatDate(frontmatter.date) }}
@@ -22,6 +17,11 @@
           <span v-for="tag in frontmatter.tags" :key="tag" class="tag">
             #{{ tag }}
           </span>
+        </div>
+        
+        <!-- 日记配图：frontmatter 之后，正文之前 -->
+        <div class="journal-image" v-if="frontmatter.image">
+          <img :src="frontmatter.image" :alt="frontmatter.title" />
         </div>
       </div>
     </template>
