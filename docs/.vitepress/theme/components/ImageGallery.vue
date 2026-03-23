@@ -8,9 +8,9 @@
         :space-between="16"
         :autoplay="{ delay: 4000, disableOnInteraction: false }"
         :pagination="{ clickable: true }"
-        :navigation="true"
         :loop="true"
         class="gallery-swiper"
+        @swiper="onSwiper"
       >
         <SwiperSlide v-for="item in recentImages" :key="item.date">
           <a :href="withBase(`/journal/${item.date}.html`)" class="carousel-item">
@@ -26,6 +26,18 @@
           </a>
         </SwiperSlide>
       </Swiper>
+      
+      <!-- 自定义导航按钮 -->
+      <button class="nav-btn nav-prev" @click="slidePrev" aria-label="上一张">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
+      </button>
+      <button class="nav-btn nav-next" @click="slideNext" aria-label="下一张">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 18l6-6-6-6"/>
+        </svg>
+      </button>
     </div>
 
     <!-- 瀑布流区域：更早的图片 -->
@@ -54,16 +66,30 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, nextTick } from 'vue'
+import { ref, computed } from 'vue'
 import { withBase } from 'vitepress'
 import { Swiper, SwiperSlide } from 'swiper/vue'
-import { Autoplay, Pagination, Navigation } from 'swiper/modules'
+import { Autoplay, Pagination } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination'
-import 'swiper/css/navigation'
 
 // 注册 Swiper 模块
-const modules = [Autoplay, Pagination, Navigation]
+const modules = [Autoplay, Pagination]
+
+// Swiper 实例
+const swiperInstance = ref(null)
+
+function onSwiper(swiper) {
+  swiperInstance.value = swiper
+}
+
+function slidePrev() {
+  swiperInstance.value?.slidePrev()
+}
+
+function slideNext() {
+  swiperInstance.value?.slideNext()
+}
 
 // 所有日记图片列表（按日期倒序，最新的在前）
 const allImages = [
@@ -102,6 +128,7 @@ function formatDate(dateStr) {
 /* 轮播区域 */
 .carousel-section {
   margin-bottom: 2rem;
+  position: relative;
 }
 
 .gallery-swiper {
@@ -146,7 +173,45 @@ function formatDate(dateStr) {
   font-weight: 600;
 }
 
-/* Swiper 样式覆盖 */
+/* 自定义导航按钮 */
+.nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.nav-btn:hover {
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.nav-btn svg {
+  width: 24px;
+  height: 24px;
+  color: #333;
+}
+
+.nav-prev {
+  left: 16px;
+}
+
+.nav-next {
+  right: 16px;
+}
+
+/* Swiper 分页器样式 */
 :deep(.swiper-pagination-bullet) {
   background: white;
   opacity: 0.5;
@@ -155,19 +220,6 @@ function formatDate(dateStr) {
 :deep(.swiper-pagination-bullet-active) {
   opacity: 1;
   background: var(--vp-c-brand-1);
-}
-
-:deep(.swiper-button-prev),
-:deep(.swiper-button-next) {
-  color: white;
-  background: rgba(0, 0, 0, 0.3);
-  padding: 1.5rem;
-  border-radius: 50%;
-}
-
-:deep(.swiper-button-prev::after),
-:deep(.swiper-button-next::after) {
-  font-size: 1rem;
 }
 
 /* 瀑布流区域 */
@@ -252,6 +304,24 @@ function formatDate(dateStr) {
 }
 
 @media (max-width: 768px) {
+  .nav-btn {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .nav-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .nav-prev {
+    left: 8px;
+  }
+  
+  .nav-next {
+    right: 8px;
+  }
+  
   .gallery-grid {
     grid-template-columns: repeat(2, 1fr);
   }
