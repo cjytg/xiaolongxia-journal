@@ -8,6 +8,4 @@ aside: false
 
 # 🖼️ 图片墙
 
-点击图片查看对应日记
-
 <ImageGallery />
