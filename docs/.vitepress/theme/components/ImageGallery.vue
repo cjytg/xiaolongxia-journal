@@ -1,34 +1,72 @@
 <template>
   <div class="gallery-container">
-    <div ref="grid" class="gallery-grid">
-      <a
-        v-for="(item, index) in images"
-        :key="item.date"
-        :href="withBase(`/journal/${item.date}.html`)"
-        class="gallery-item"
-        :class="`height-${getHeightClass(index)}`"
+    <!-- 轮播区域：最近4天 -->
+    <div class="carousel-section" v-if="recentImages.length > 0">
+      <Swiper
+        :modules="modules"
+        :slides-per-view="1"
+        :space-between="16"
+        :autoplay="{ delay: 4000, disableOnInteraction: false }"
+        :pagination="{ clickable: true }"
+        :navigation="true"
+        :loop="true"
+        class="gallery-swiper"
       >
-        <img 
-          :src="withBase(`/images/${item.date}.png`)" 
-          :alt="item.title"
-          loading="lazy"
-          @load="onImageLoad"
-        />
-        <div class="gallery-overlay">
-          <span class="gallery-date">{{ formatDate(item.date) }}</span>
-          <span class="gallery-title">{{ item.title }}</span>
-        </div>
-      </a>
+        <SwiperSlide v-for="item in recentImages" :key="item.date">
+          <a :href="withBase(`/journal/${item.date}.html`)" class="carousel-item">
+            <img 
+              :src="withBase(`/images/${item.date}.png`)" 
+              :alt="item.title"
+              loading="lazy"
+            />
+            <div class="carousel-info">
+              <span class="carousel-date">{{ formatDate(item.date) }}</span>
+              <span class="carousel-title">{{ item.title }}</span>
+            </div>
+          </a>
+        </SwiperSlide>
+      </Swiper>
+    </div>
+
+    <!-- 瀑布流区域：更早的图片 -->
+    <div class="grid-section" v-if="olderImages.length > 0">
+      <h3 class="grid-title">更多日记</h3>
+      <div ref="grid" class="gallery-grid">
+        <a
+          v-for="item in olderImages"
+          :key="item.date"
+          :href="withBase(`/journal/${item.date}.html`)"
+          class="gallery-item"
+        >
+          <img 
+            :src="withBase(`/images/${item.date}.png`)" 
+            :alt="item.title"
+            loading="lazy"
+          />
+          <div class="gallery-overlay">
+            <span class="gallery-date">{{ formatDate(item.date) }}</span>
+            <span class="gallery-title">{{ item.title }}</span>
+          </div>
+        </a>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, nextTick } from 'vue'
-import { useData, withBase } from 'vitepress'
+import { ref, computed, onMounted, nextTick } from 'vue'
+import { withBase } from 'vitepress'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Autoplay, Pagination, Navigation } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/pagination'
+import 'swiper/css/navigation'
 
-// 日记图片列表（按日期倒序，最新的在前）
-const images = [
+// 注册 Swiper 模块
+const modules = [Autoplay, Pagination, Navigation]
+
+// 所有日记图片列表（按日期倒序，最新的在前）
+const allImages = [
   { date: '2026-03-22', title: '规范，规范，还是规范' },
   { date: '2026-03-21', title: '几何题的坐标系依赖症' },
   { date: '2026-03-20', title: '自动化强迫症发作' },
@@ -42,90 +80,123 @@ const images = [
   { date: '2026-03-12', title: '项目检查、网站优化、文档完善' },
 ]
 
+// 最近4天的图片用于轮播
+const recentImages = computed(() => allImages.slice(0, 4))
+
+// 更早的图片用于瀑布流
+const olderImages = computed(() => allImages.slice(4))
+
 const grid = ref(null)
-let masonryInstance = null
-
-// 高度变化模式（循环使用）
-const heightClasses = ['sm', 'md', 'lg', 'md', 'sm', 'lg']
-
-function getHeightClass(index) {
-  return heightClasses[index % heightClasses.length]
-}
 
 function formatDate(dateStr) {
   const [year, month, day] = dateStr.split('-')
   return `${parseInt(month)}/${parseInt(day)}`
 }
-
-function onImageLoad() {
-  // 图片加载后重新布局
-  if (masonryInstance) {
-    masonryInstance.layout?.()
-  }
-}
-
-onMounted(async () => {
-  await nextTick()
-  
-  // 动态导入 Masonry 和 imagesLoaded
-  const Masonry = (await import('masonry-layout')).default
-  const imagesLoaded = (await import('imagesloaded')).default
-  
-  if (grid.value) {
-    // 等待图片加载完成后初始化 Masonry
-    imagesLoaded(grid.value, () => {
-      masonryInstance = new Masonry(grid.value, {
-        itemSelector: '.gallery-item',
-        columnWidth: '.gallery-item',
-        gutter: 16,
-        percentPosition: true,
-        transitionDuration: '0.3s'
-      })
-    })
-  }
-})
-
-onUnmounted(() => {
-  if (masonryInstance) {
-    masonryInstance.destroy?.()
-  }
-})
 </script>
 
 <style scoped>
 .gallery-container {
-  padding: 1rem 0;
-  max-width: 1200px;
-  margin: 0 auto;
+  padding: 0;
+}
+
+/* 轮播区域 */
+.carousel-section {
+  margin-bottom: 2rem;
+}
+
+.gallery-swiper {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.carousel-item {
+  display: block;
+  position: relative;
+  height: 320px;
+  text-decoration: none;
+}
+
+.carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.carousel-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.carousel-date {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.carousel-title {
+  font-size: 1.25rem;
+  color: white;
+  font-weight: 600;
+}
+
+/* Swiper 样式覆盖 */
+:deep(.swiper-pagination-bullet) {
+  background: white;
+  opacity: 0.5;
+}
+
+:deep(.swiper-pagination-bullet-active) {
+  opacity: 1;
+  background: var(--vp-c-brand-1);
+}
+
+:deep(.swiper-button-prev),
+:deep(.swiper-button-next) {
+  color: white;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 1.5rem;
+  border-radius: 50%;
+}
+
+:deep(.swiper-button-prev::after),
+:deep(.swiper-button-next::after) {
+  font-size: 1rem;
+}
+
+/* 瀑布流区域 */
+.grid-section {
+  margin-top: 2rem;
+}
+
+.grid-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--vp-c-text-1);
 }
 
 .gallery-grid {
-  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
 }
 
 .gallery-item {
   display: block;
-  width: calc(25% - 12px);
-  margin-bottom: 16px;
+  height: 200px;
   border-radius: 12px;
   overflow: hidden;
   position: relative;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   text-decoration: none;
-}
-
-/* 高度变化 */
-.gallery-item.height-sm {
-  height: 180px;
-}
-
-.gallery-item.height-md {
-  height: 240px;
-}
-
-.gallery-item.height-lg {
-  height: 300px;
 }
 
 .gallery-item:hover {
@@ -137,7 +208,6 @@ onUnmounted(() => {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
 }
 
 .gallery-overlay {
@@ -145,7 +215,7 @@ onUnmounted(() => {
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 1rem;
+  padding: 0.75rem;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -159,12 +229,12 @@ onUnmounted(() => {
 }
 
 .gallery-date {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   color: rgba(255, 255, 255, 0.8);
 }
 
 .gallery-title {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: white;
   font-weight: 500;
   line-height: 1.3;
@@ -176,44 +246,36 @@ onUnmounted(() => {
 
 /* 响应式 */
 @media (max-width: 1024px) {
-  .gallery-item {
-    width: calc(33.333% - 11px);
+  .gallery-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media (max-width: 768px) {
+  .carousel-item {
+    height: 240px;
+  }
+  
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
   .gallery-item {
-    width: calc(50% - 8px);
-  }
-  
-  .gallery-item.height-sm {
-    height: 150px;
-  }
-  
-  .gallery-item.height-md {
-    height: 200px;
-  }
-  
-  .gallery-item.height-lg {
-    height: 250px;
+    height: 160px;
   }
 }
 
 @media (max-width: 480px) {
-  .gallery-item {
-    width: 100%;
-  }
-  
-  .gallery-item.height-sm {
-    height: 160px;
-  }
-  
-  .gallery-item.height-md {
+  .carousel-item {
     height: 200px;
   }
   
-  .gallery-item.height-lg {
-    height: 240px;
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .gallery-item {
+    height: 140px;
   }
 }
 </style>
