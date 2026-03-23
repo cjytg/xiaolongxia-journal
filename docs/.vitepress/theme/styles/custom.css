@@ -218,6 +218,15 @@
   --vp-home-hero-image-filter: grayscale(0.3);
 }
 
+/* 图片墙页面 - 更宽的容器 */
+.VPDoc.has-aside-false .vp-doc {
+  max-width: 1200px !important;
+}
+
+.VPDoc.has-aside-false .content-container {
+  max-width: 1200px !important;
+}
+
 /* 响应式优化 */
 @media (max-width: 768px) {
   :root {

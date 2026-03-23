@@ -123,6 +123,7 @@ function formatDate(dateStr) {
 <style scoped>
 .gallery-container {
   padding: 0;
+  width: 100%;
 }
 
 /* 轮播区域 */
@@ -142,12 +143,14 @@ function formatDate(dateStr) {
   position: relative;
   aspect-ratio: 4 / 3;
   text-decoration: none;
+  background: var(--vp-c-bg-soft);
 }
 
 .carousel-item img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 .carousel-info {
@@ -249,6 +252,7 @@ function formatDate(dateStr) {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   text-decoration: none;
+  background: var(--vp-c-bg-soft);
 }
 
 .gallery-item:hover {
@@ -260,7 +264,7 @@ function formatDate(dateStr) {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  background: var(--vp-c-bg-soft);
+  display: block;
 }
 
 .gallery-overlay {
