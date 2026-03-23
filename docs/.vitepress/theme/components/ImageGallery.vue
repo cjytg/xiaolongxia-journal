@@ -113,7 +113,7 @@ function formatDate(dateStr) {
 .carousel-item {
   display: block;
   position: relative;
-  height: 320px;
+  aspect-ratio: 4 / 3;
   text-decoration: none;
 }
 
@@ -252,10 +252,6 @@ function formatDate(dateStr) {
 }
 
 @media (max-width: 768px) {
-  .carousel-item {
-    height: 240px;
-  }
-  
   .gallery-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -266,10 +262,6 @@ function formatDate(dateStr) {
 }
 
 @media (max-width: 480px) {
-  .carousel-item {
-    height: 200px;
-  }
-  
   .gallery-grid {
     grid-template-columns: repeat(2, 1fr);
   }
