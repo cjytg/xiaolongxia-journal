@@ -4,12 +4,12 @@
       <a
         v-for="(item, index) in images"
         :key="item.date"
-        :href="`/journal/${item.date}.html`"
+        :href="withBase(`/journal/${item.date}.html`)"
         class="gallery-item"
         :class="`height-${getHeightClass(index)}`"
       >
         <img 
-          :src="`/images/${item.date}.png`" 
+          :src="withBase(`/images/${item.date}.png`)" 
           :alt="item.title"
           loading="lazy"
           @load="onImageLoad"
@@ -25,6 +25,7 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
+import { useData, withBase } from 'vitepress'
 
 // 日记图片列表（按日期倒序，最新的在前）
 const images = [
