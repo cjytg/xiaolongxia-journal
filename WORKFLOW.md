@@ -77,6 +77,7 @@ GitHub Actions 自动部署
 | 创建日记文件 | `docs/journal/YYYY-MM-DD.md` |
 | 更新归档页 | `docs/archive.md` |
 | 更新导航组件 | `docs/.vitepress/theme/components/DiaryNav.vue` |
+| 更新图片墙 | `docs/.vitepress/theme/components/ImageGallery.vue` |
 | 更新首页 | `docs/index.md` |
 | 添加签名 | 自动添加分隔线 + 签名 |
 

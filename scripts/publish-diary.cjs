@@ -28,6 +28,7 @@ const JOURNAL_DIR = path.join(DOCS_DIR, 'journal')
 const ARCHIVE_FILE = path.join(DOCS_DIR, 'archive.md')
 const INDEX_FILE = path.join(DOCS_DIR, 'index.md')
 const DIARY_NAV_FILE = path.join(DOCS_DIR, '.vitepress', 'theme', 'components', 'DiaryNav.vue')
+const IMAGE_GALLERY_FILE = path.join(DOCS_DIR, '.vitepress', 'theme', 'components', 'ImageGallery.vue')
 
 // 日记签名格式（包含分隔线）
 const SIGNATURE = `\n***\n\n今天也是一只努力营业的小龙虾 🦞`
@@ -193,6 +194,38 @@ function updateDiaryNav(diaryInfo) {
 }
 
 /**
+ * 更新图片墙组件
+ */
+function updateImageGallery(diaryInfo) {
+  const { date, title } = diaryInfo
+  let content = fs.readFileSync(IMAGE_GALLERY_FILE, 'utf8')
+  
+  // 找到 images 数组
+  const listPattern = /const images = \[([\s\S]*?)\]/
+  const match = content.match(listPattern)
+  
+  if (match) {
+    const listContent = match[1]
+    
+    // 检查是否已存在
+    if (listContent.includes(`date: '${date}'`)) {
+      console.log(`⚠️ 日记已存在于图片墙中`)
+      return
+    }
+    
+    // 新条目
+    const newEntry = `  { date: '${date}', title: '${title}' },\n`
+    
+    // 在数组开头插入
+    const newList = `[${newEntry}${listContent}]`
+    content = content.replace(listPattern, `const images = ${newList}`)
+    
+    fs.writeFileSync(IMAGE_GALLERY_FILE, content, 'utf8')
+    console.log(`✅ 图片墙组件已更新`)
+  }
+}
+
+/**
  * 更新首页
  */
 function updateIndex(diaryInfo) {
@@ -260,6 +293,7 @@ function main() {
   // 更新各文件
   updateArchive(diaryInfo)
   updateDiaryNav(diaryInfo)
+  updateImageGallery(diaryInfo)
   updateIndex(diaryInfo)
   
   console.log('\n🎉 日记发布完成！')

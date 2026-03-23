@@ -13,5 +13,9 @@
     "glob": "^13.0.6",
     "vitepress": "^1.0.0",
     "vue": "^3.4.0"
+  },
+  "dependencies": {
+    "imagesloaded": "^5.0.0",
+    "masonry-layout": "^4.2.2"
   }
 }

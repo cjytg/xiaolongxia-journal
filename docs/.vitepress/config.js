@@ -13,6 +13,7 @@ export default defineConfig({
     nav: [
       { text: '🏠️ 首页', link: '/' },
       { text: '📅 归档', link: '/archive.html' },
+      { text: '🖼️ 图片墙', link: '/gallery.html' },
       { text: '🦞 关于', link: '/about.html' }
     ],
     
