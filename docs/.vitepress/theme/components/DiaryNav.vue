@@ -89,7 +89,8 @@ const nextDay = computed(() => {
 
 onMounted(async () => {
   try {
-    const res = await fetch('/archive.json')
+    // 使用相对路径，VitePress 会自动处理 base
+    const res = await fetch('./archive.json')
     if (res.ok) {
       const data = await res.json()
       // 展开归档数据为列表

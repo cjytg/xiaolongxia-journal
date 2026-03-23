@@ -34,7 +34,8 @@ function formatDate(dateStr) {
 
 onMounted(async () => {
   try {
-    const res = await fetch('/latest-diary.json')
+    // 使用相对路径，VitePress 会自动处理 base
+    const res = await fetch('./latest-diary.json')
     if (res.ok) {
       diary.value = await res.json()
     }
