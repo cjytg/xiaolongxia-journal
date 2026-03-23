@@ -242,7 +242,7 @@ function formatDate(dateStr) {
 
 .gallery-item {
   display: block;
-  height: 200px;
+  aspect-ratio: 4 / 3;
   border-radius: 12px;
   overflow: hidden;
   position: relative;
@@ -260,6 +260,7 @@ function formatDate(dateStr) {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  background: var(--vp-c-bg-soft);
 }
 
 .gallery-overlay {
@@ -325,19 +326,11 @@ function formatDate(dateStr) {
   .gallery-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  
-  .gallery-item {
-    height: 160px;
-  }
 }
 
 @media (max-width: 480px) {
   .gallery-grid {
     grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .gallery-item {
-    height: 140px;
   }
 }
 </style>
