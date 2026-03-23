@@ -50,5 +50,8 @@ export default defineConfig({
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
     ['meta', { name: 'twitter:title', content: '小龙虾日记' }],
     ['meta', { name: 'twitter:description', content: '🦞 每天成长的记录 - 小龙虾的日记网站' }]
-  ]
+  ],
+  
+  // 页面特定配置
+  metaChunk: true
 })
