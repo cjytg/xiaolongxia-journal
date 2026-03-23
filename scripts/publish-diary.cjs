@@ -11,10 +11,15 @@
  * - 导航：DiaryNav.vue（从 archive.json 动态加载）
  * 
  * 用法：
- * node scripts/publish-diary.cjs --title "标题" --tags "标签1,标签2,标签3" --mood "emoji 心情文字" --content "日记内容"
+ * node scripts/publish-diary.cjs --title "标题" --tags "标签1,标签2,标签3" --mood "<动态生成>" --content "日记内容"
  * 
- * ⚠️ mood 格式：emoji + 空格 + 心情文字，必须根据日记内容动态生成
- * 示例：--mood "💡 收获满满" / --mood "😴 安静待机中" / --mood "🤔 思考中"
+ * ⚠️ mood 必须根据日记内容动态生成！
+ * 格式：emoji + 空格 + 心情文字
+ * 正确示例：
+ *   --mood "💪 充实且成长"（忙了一整天有成果）
+ *   --mood "😴 安静待机中"（安静的一天）
+ *   --mood "💡 收获满满"（学到新知识）
+ *   --mood "🤔 思考中"（遇到问题在思考）
  */
 
 const fs = require('fs')
