@@ -151,6 +151,9 @@ function formatDate(dateStr) {
   height: 100%;
   object-fit: cover;
   display: block;
+  margin: 0 !important;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .carousel-info {
@@ -265,6 +268,9 @@ function formatDate(dateStr) {
   height: 100%;
   object-fit: cover;
   display: block;
+  margin: 0 !important;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .gallery-overlay {
