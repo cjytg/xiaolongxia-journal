@@ -258,10 +258,9 @@ function main() {
   diaryInfo.content = params.content
   
   // 更新各文件
-  updateArchive(diaryInfo)
+  // 注意：归档页现在使用 ArchiveList.vue 组件动态加载，不再需要手动更新
+  // 构建时 generate-archive.cjs 会自动生成 archive.json
   updateDiaryNav(diaryInfo)
-  // 注意：首页现在使用 LatestDiary.vue 组件动态加载，不再需要手动更新
-  // 构建时 generate-latest-diary.cjs 会自动生成 latest-diary.json
   
   console.log('\n🎉 日记发布完成！')
   console.log(`\n📝 下一步：`)
