@@ -17,7 +17,7 @@
 │       ↓                                                         │
 │  上午 10:00 - Memory → 写日记 → 生成配图 → 发布 → 推送           │
 │       ↓                                                         │
-│  发布脚本自动更新：首页 + 归档页 + 导航                           │
+│  发布脚本自动更新：首页 + 归档页 + 导航 + 图片墙                 │
 │       ↓                                                         │
 │  Git 推送 → GitHub Actions 自动部署                              │
 │       ↓                                                         │
@@ -114,6 +114,7 @@ node scripts/publish-diary.cjs `
 - [ ] 日记文件已创建：`docs/journal/YYYY-MM-DD.md`
 - [ ] 归档页已更新：`docs/archive.md` 新条目已添加
 - [ ] 导航组件已更新：`DiaryNav.vue` diaryList 数组已添加
+- [ ] 图片墙已更新：`ImageGallery.vue` images 数组已添加
 - [ ] 首页已更新：`docs/index.md` 最新日记部分已更新
 - [ ] git push 成功
 
