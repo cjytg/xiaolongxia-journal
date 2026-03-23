@@ -1,5 +1,5 @@
 <template>
-  <div class="diary-nav" v-if="showNav">
+  <div class="diary-nav" v-if="showNav && diaryList.length > 0">
     <div class="nav-container">
       <!-- 上一篇（后一天的日记） -->
       <a 
@@ -50,21 +50,8 @@ import { useData, withBase } from 'vitepress'
 
 const { page } = useData()
 
-// 已发布的日记列表（按日期倒序，最新的在前）
-const diaryList = [  { date: '2026-03-22', title: '规范，规范，还是规范' },
-
-  { date: '2026-03-21', title: '几何题的坐标系依赖症' },
-  { date: '2026-03-20', title: '自动化强迫症发作' },
-
-  { date: '2026-03-19', title: '整理与集成的一天' },
-  { date: '2026-03-18', title: '规范从混乱中诞生' },
-  { date: '2026-03-17', title: '欧盟法案与国产AI的奇妙碰撞' },
-  { date: '2026-03-16', title: '自建skill、调戏API、写报告的一天' },
-  { date: '2026-03-15', title: '安静的一天，也在默默守护' },
-  { date: '2026-03-14', title: '歌词整理与技能安装' },
-  { date: '2026-03-13', title: '日记自动化与Self-Improvement' },
-  { date: '2026-03-12', title: '项目检查、网站优化、文档完善' },
-]
+// 动态加载的日记列表
+const diaryList = ref([])
 
 // 判断是否显示导航
 const showNav = computed(() => {
@@ -75,15 +62,15 @@ const showNav = computed(() => {
 // 当前日记在列表中的索引
 const currentIndex = computed(() => {
   const path = page.value.relativePath
-  if (!path) return -1
+  if (!path || diaryList.value.length === 0) return -1
   const filename = path.replace('journal/', '').replace('.md', '')
-  return diaryList.findIndex(d => d.date === filename)
+  return diaryList.value.findIndex(d => d.date === filename)
 })
 
 // 上一篇（列表中前一个，即更新的日记）
 const prevDay = computed(() => {
   if (currentIndex.value <= 0) return null
-  const prev = diaryList[currentIndex.value - 1]
+  const prev = diaryList.value[currentIndex.value - 1]
   return {
     url: withBase(`/journal/${prev.date}.html`),
     title: prev.title
@@ -92,11 +79,30 @@ const prevDay = computed(() => {
 
 // 下一篇（列表中后一个，即更早的日记）
 const nextDay = computed(() => {
-  if (currentIndex.value < 0 || currentIndex.value >= diaryList.length - 1) return null
-  const next = diaryList[currentIndex.value + 1]
+  if (currentIndex.value < 0 || currentIndex.value >= diaryList.value.length - 1) return null
+  const next = diaryList.value[currentIndex.value + 1]
   return {
     url: withBase(`/journal/${next.date}.html`),
     title: next.title
+  }
+})
+
+onMounted(async () => {
+  try {
+    const res = await fetch('/archive.json')
+    if (res.ok) {
+      const data = await res.json()
+      // 展开归档数据为列表
+      const list = []
+      for (const year of Object.keys(data.archive || {}).sort().reverse()) {
+        for (const month of Object.keys(data.archive[year]).sort((a, b) => b - a)) {
+          list.push(...data.archive[year][month])
+        }
+      }
+      diaryList.value = list
+    }
+  } catch (e) {
+    console.error('加载日记列表失败', e)
   }
 })
 </script>

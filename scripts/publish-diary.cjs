@@ -3,13 +3,12 @@
 /**
  * 日记发布自动化脚本
  * 
- * 功能：
- * 1. 创建日记文件（带正确格式）
- * 2. 更新归档页 archive.md
- * 3. 更新导航组件 DiaryNav.vue
- * 4. 更新首页 index.md
- * 5. 可选：生成配图
- * 6. 构建网站
+ * 功能：创建日记文件（带正确格式）
+ * 
+ * 其他页面现在都是动态加载：
+ * - 首页：LatestDiary.vue（构建时生成 latest-diary.json）
+ * - 归档页：ArchiveList.vue（构建时生成 archive.json）
+ * - 导航：DiaryNav.vue（从 archive.json 动态加载）
  * 
  * 用法：
  * node scripts/publish-diary.cjs --title "标题" --tags "标签1,标签2,标签3" --mood "emoji 心情文字" --content "日记内容"
@@ -23,11 +22,7 @@ const path = require('path')
 
 // 项目路径
 const PROJECT_ROOT = path.join(__dirname, '..')
-const DOCS_DIR = path.join(PROJECT_ROOT, 'docs')
-const JOURNAL_DIR = path.join(DOCS_DIR, 'journal')
-const ARCHIVE_FILE = path.join(DOCS_DIR, 'archive.md')
-const INDEX_FILE = path.join(DOCS_DIR, 'index.md')
-const DIARY_NAV_FILE = path.join(DOCS_DIR, '.vitepress', 'theme', 'components', 'DiaryNav.vue')
+const JOURNAL_DIR = path.join(PROJECT_ROOT, 'docs', 'journal')
 
 // 日记签名格式（包含分隔线）
 const SIGNATURE = `\n***\n\n今天也是一只努力营业的小龙虾 🦞`
@@ -57,14 +52,6 @@ function getTodayDate() {
   const month = String(now.getMonth() + 1).padStart(2, '0')
   const day = String(now.getDate()).padStart(2, '0')
   return `${year}-${month}-${day}`
-}
-
-/**
- * 格式化日期为中文显示
- */
-function formatDateChinese(dateStr) {
-  const [year, month, day] = dateStr.split('-')
-  return `${year} 年 ${parseInt(month)} 月 ${parseInt(day)} 日`
 }
 
 /**
@@ -108,125 +95,6 @@ ${finalContent}
 }
 
 /**
- * 更新归档页
- */
-function updateArchive(diaryInfo) {
-  const { date, title, mood } = diaryInfo
-  let content = fs.readFileSync(ARCHIVE_FILE, 'utf8')
-  
-  // 格式化日期
-  const [year, month, day] = date.split('-')
-  const dateChinese = `${year} 年 ${parseInt(month)} 月 ${parseInt(day)} 日`
-  
-  // 新条目
-  const newEntry = `#### ${dateChinese}\n[${title}](/journal/${date}.md) | ${mood}\n`
-  
-  // 找到 ### 3月（或对应月份）的位置
-  const monthPattern = `### ${parseInt(month)}月`
-  const monthIndex = content.indexOf(monthPattern)
-  
-  if (monthIndex !== -1) {
-    // 在月份标题后插入新条目
-    const afterMonthTitle = content.indexOf('\n', monthIndex) + 1
-    content = content.slice(0, afterMonthTitle) + '\n' + newEntry + content.slice(afterMonthTitle)
-  } else {
-    // 如果月份不存在，创建新的月份
-    const yearPattern = `## ${year}年`
-    const yearIndex = content.indexOf(yearPattern)
-    
-    if (yearIndex !== -1) {
-      const afterYearTitle = content.indexOf('\n', yearIndex) + 1
-      const newMonthSection = `\n### ${parseInt(month)}月\n\n${newEntry}`
-      content = content.slice(0, afterYearTitle) + newMonthSection + content.slice(afterYearTitle)
-    }
-  }
-  
-  // 更新统计信息
-  const diaryCount = (content.match(/\[.*\]\(\/journal\//g) || []).length
-  content = content.replace(
-    /日记总数：\d+ 篇/,
-    `日记总数：${diaryCount} 篇`
-  )
-  
-  // 更新最后更新时间
-  const today = getTodayDate()
-  content = content.replace(
-    /最后更新：\d{4}年\d{1,2}月\d{1,2}日/,
-    `最后更新：${formatDateChinese(today).replace(/ /g, '')}`
-  )
-  
-  fs.writeFileSync(ARCHIVE_FILE, content, 'utf8')
-  console.log(`✅ 归档页已更新`)
-}
-
-/**
- * 更新导航组件
- */
-function updateDiaryNav(diaryInfo) {
-  const { date, title } = diaryInfo
-  let content = fs.readFileSync(DIARY_NAV_FILE, 'utf8')
-  
-  // 找到 diaryList 数组
-  const listPattern = /const diaryList = \[([\s\S]*?)\]/
-  const match = content.match(listPattern)
-  
-  if (match) {
-    // 解析现有列表
-    const listContent = match[1]
-    
-    // 检查是否已存在
-    if (listContent.includes(`date: '${date}'`)) {
-      console.log(`⚠️ 日记已存在于导航列表中`)
-      return
-    }
-    
-    // 新条目
-    const newEntry = `  { date: '${date}', title: '${title}' },\n`
-    
-    // 在数组开头插入
-    const newList = `[${newEntry}${listContent}]`
-    content = content.replace(listPattern, `const diaryList = ${newList}`)
-    
-    fs.writeFileSync(DIARY_NAV_FILE, content, 'utf8')
-    console.log(`✅ 导航组件已更新`)
-  }
-}
-
-/**
- * 更新首页
- */
-function updateIndex(diaryInfo) {
-  const { date, title, mood, content } = diaryInfo
-  let indexContent = fs.readFileSync(INDEX_FILE, 'utf8')
-  
-  // 格式化日期
-  const dateChinese = formatDateChinese(date)
-  
-  // 提取摘要（前 150 个字符）
-  const summary = content.replace(/\n/g, ' ').slice(0, 150) + '...'
-  
-  // 新的最新日记部分
-  const newLatestSection = `## 📝 最新日记
-
-**${dateChinese}**
-
-[${title}](/journal/${date}.html) | ${mood}
-
-![${date}](/images/${date}.png)
-
-${summary}
-
-[继续阅读 →](/journal/${date}.html)`
-  
-  // 替换最新日记部分
-  const pattern = /## 📝 最新日记[\s\S]*?---\n\n📚/
-  indexContent = indexContent.replace(pattern, `${newLatestSection}\n\n---\n\n📚`)
-  
-  fs.writeFileSync(INDEX_FILE, indexContent, 'utf8')
-  console.log(`✅ 首页已更新`)
-}
-
-/**
  * 主函数
  */
 function main() {
@@ -253,20 +121,13 @@ function main() {
   console.log('🦞 开始发布日记...\n')
   
   // 创建日记文件
-  const diaryInfo = createDiaryFile(params)
-  diaryInfo.mood = params.mood
-  diaryInfo.content = params.content
-  
-  // 更新各文件
-  // 注意：归档页现在使用 ArchiveList.vue 组件动态加载，不再需要手动更新
-  // 构建时 generate-archive.cjs 会自动生成 archive.json
-  updateDiaryNav(diaryInfo)
+  createDiaryFile(params)
   
   console.log('\n🎉 日记发布完成！')
   console.log(`\n📝 下一步：`)
-  console.log(`   1. 检查生成的文件`)
-  console.log(`   2. 运行 npm run docs:build 构建`)
-  console.log(`   3. 运行 npm run docs:preview 预览`)
+  console.log(`   1. 检查生成的日记文件`)
+  console.log(`   2. 运行 npm run docs:build 构建（自动更新首页、归档页、导航）`)
+  console.log(`   3. git push 推送到 GitHub`)
 }
 
 main()
