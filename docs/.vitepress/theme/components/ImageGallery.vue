@@ -95,6 +95,8 @@ onUnmounted(() => {
 <style scoped>
 .gallery-container {
   padding: 1rem 0;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .gallery-grid {
