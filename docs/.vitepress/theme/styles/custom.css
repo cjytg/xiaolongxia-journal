@@ -220,11 +220,18 @@
 
 /* 图片墙页面 - 更宽的容器 */
 .VPDoc.has-aside-false .vp-doc {
-  max-width: 1200px !important;
+  max-width: 1400px !important;
 }
 
 .VPDoc.has-aside-false .content-container {
-  max-width: 1200px !important;
+  max-width: 1400px !important;
+}
+
+/* 轮播区限制宽度 */
+.carousel-section {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* 响应式优化 */

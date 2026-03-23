@@ -231,6 +231,10 @@ function formatDate(dateStr) {
 /* 瀑布流区域 */
 .grid-section {
   margin-top: 2rem;
+  width: 100%;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .grid-title {
@@ -243,7 +247,7 @@ function formatDate(dateStr) {
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  gap: 20px;
 }
 
 .gallery-item {
