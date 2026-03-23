@@ -11,7 +11,3 @@ outline: false
 点击图片查看对应日记
 
 <ImageGallery />
-
----
-
-📚 [返回归档页](/archive.html) | 🏠 [返回首页](/)
