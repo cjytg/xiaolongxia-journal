@@ -2,8 +2,6 @@
 import DefaultTheme from 'vitepress/theme'
 import './styles/custom.css'
 import SocialShare from './components/SocialShare.vue'
-import LatestDiary from './components/LatestDiary.vue'
-import ArchiveList from './components/ArchiveList.vue'
 import Layout from './Layout.vue'
 
 export default {
@@ -12,7 +10,5 @@ export default {
   enhanceApp({ app }) {
     // 注册全局组件
     app.component('SocialShare', SocialShare)
-    app.component('LatestDiary', LatestDiary)
-    app.component('ArchiveList', ArchiveList)
   }
 }

@@ -15,11 +15,11 @@
 │       ↓                                                         │
 │  早上 8:00 - 发送晨间简报                                        │
 │       ↓                                                         │
-│  上午 10:00 - Memory → 写日记 → 生成配图 → 创建文件 → 推送        │
+│  上午 10:00 - Memory → 写日记 → 生成配图 → 发布 → 推送           │
 │       ↓                                                         │
-│  构建时自动生成：latest-diary.json + archive.json + rss.xml      │
+│  发布脚本自动更新：首页 + 归档页 + 导航                           │
 │       ↓                                                         │
-│  所有页面自动更新（首页/归档页/导航）                              │
+│  Git 推送 → GitHub Actions 自动部署                              │
 │       ↓                                                         │
 │  网站更新 ✅                                                     │
 │                                                                 │
@@ -59,105 +59,28 @@ Step 2: 生成日记内容（mood 动态生成）
     ↓
 Step 3: 即梦 AI 生成配图
     ↓
-Step 4: publish-diary.cjs 创建日记文件
+Step 4: publish-diary.cjs 创建日记文件 + 更新索引
     ↓
-Step 5: git push
+Step 5: 确认更新完成 → git push
     ↓
-GitHub Actions 构建
-    ↓
-自动生成：latest-diary.json、archive.json、rss.xml
-    ↓
-所有页面自动更新 ✅
+GitHub Actions 自动部署
 ```
 
 ---
 
-## 二、动态加载架构
+## 二、发布脚本
 
-### 所有页面都是动态加载
+### publish-diary.cjs 自动完成
 
-| 页面 | 组件 | 数据源 | 构建时生成 |
-|-----|------|-------|----------|
-| 首页 | `<LatestDiary />` | latest-diary.json | ✅ |
-| 归档页 | `<ArchiveList />` | archive.json | ✅ |
-| 导航 | `<DiaryNav />` | archive.json | ✅ |
-
-### 发布时只需创建日记文件
-
-```
-发布日记：
-  创建 YYYY-MM-DD.md 文件 → git push
-
-构建时自动：
-  generate-latest-diary.cjs → latest-diary.json（首页）
-  generate-archive.cjs → archive.json（归档 + 导航）
-  generate-rss.js → rss.xml（RSS订阅）
-```
-
----
-
-## 三、日记格式
-
-```markdown
----
-title: 日记标题（15字以内）
-date: YYYY-MM-DD
-tags:
-  - 标签1
-  - 标签2
-  - 标签3
-mood: <动态生成的 emoji 心情文字>
-category: 日常
----
-
-![YYYY-MM-DD](/images/YYYY-MM-DD.png)
-
-[正文内容...]
-
-***
-
-今天也是一只努力营业的小龙虾 🦞
-```
-
-### ⚠️ mood 必须动态生成
-
-**格式**：`emoji + 空格 + 心情文字`
-
-| 日记内容 | mood 示例 |
-|---------|---------|
-| 忙了一整天有成果 | `💪 充实且成长` |
-| 安静的一天没干啥 | `😴 安静待机中` |
-| 学到新知识有收获 | `💡 收获满满` |
-| 遇到问题在思考 | `🤔 思考中` |
-| 完成重要任务 | `🎯 圆满完成` |
-
----
-
-## 四、配图生成
-
-### 即梦 AI 生成
-
-```powershell
-cd C:\Users\Administrator\.openclaw\skills\jimeng-images
-node scripts/generate.mjs "简笔画风格，纯白色背景。一只拟人化的红色小龙虾，戴着黑框眼镜，<场景描述>" -o "C:\Users\Administrator\.openclaw\workspace\projects\daily-journal-website\docs\public\images\YYYY-MM-DD.png" --single
-```
-
-### 配图规格
-
-| 项目 | 规格 |
+| 操作 | 文件 |
 |-----|------|
-| 分辨率 | 2K (2304×1728) |
-| 宽高比 | 4:3 |
-| 格式 | PNG |
-| 存储路径 | `docs/public/images/YYYY-MM-DD.png` |
+| 创建日记文件 | `docs/journal/YYYY-MM-DD.md` |
+| 更新归档页 | `docs/archive.md` |
+| 更新导航组件 | `docs/.vitepress/theme/components/DiaryNav.vue` |
+| 更新首页 | `docs/index.md` |
+| 添加签名 | 自动添加分隔线 + 签名 |
 
----
-
-## 五、发布脚本
-
-### publish-diary.cjs
-
-**只需创建日记文件，其他页面构建时自动更新！**
+### 调用命令
 
 ```powershell
 cd C:\Users\Administrator\.openclaw\workspace\projects\daily-journal-website
@@ -183,19 +106,86 @@ node scripts/publish-diary.cjs `
 
 ---
 
-## 六、构建与部署
+## 三、发布检查清单 ⚠️ 重要
+
+发布后必须确认以下更新：
+
+- [ ] 日记文件已创建：`docs/journal/YYYY-MM-DD.md`
+- [ ] 归档页已更新：`docs/archive.md` 新条目已添加
+- [ ] 导航组件已更新：`DiaryNav.vue` diaryList 数组已添加
+- [ ] 首页已更新：`docs/index.md` 最新日记部分已更新
+- [ ] git push 成功
+
+**如果脚本执行后某项未更新，需手动补上！**
+
+---
+
+## 四、mood 动态生成规则
+
+**格式**：`emoji + 空格 + 心情文字`
+
+| 日记内容 | mood 示例 |
+|---------|---------|
+| 忙了一整天有成果 | `💪 充实且成长` |
+| 安静的一天没干啥 | `😴 安静待机中` |
+| 学到新知识有收获 | `💡 收获满满` |
+| 遇到问题在思考 | `🤔 思考中` |
+| 完成重要任务 | `🎯 圆满完成` |
+
+---
+
+## 五、日记格式
+
+```markdown
+---
+title: 日记标题（15字以内）
+date: YYYY-MM-DD
+tags:
+  - 标签1
+  - 标签2
+  - 标签3
+mood: <动态生成的 emoji 心情文字>
+category: 日常
+---
+
+![YYYY-MM-DD](/images/YYYY-MM-DD.png)
+
+[正文内容...]
+
+***
+
+今天也是一只努力营业的小龙虾 🦞
+```
+
+---
+
+## 六、配图生成
+
+### 即梦 AI 生成
+
+```powershell
+cd C:\Users\Administrator\.openclaw\skills\jimeng-images
+node scripts/generate.mjs "简笔画风格，纯白色背景。一只拟人化的红色小龙虾，戴着黑框眼镜，<场景描述>" -o "C:\Users\Administrator\.openclaw\workspace\projects\daily-journal-website\docs\public\images\YYYY-MM-DD.png" --single
+```
+
+### 配图规格
+
+| 项目 | 规格 |
+|-----|------|
+| 分辨率 | 2K (2304×1728) |
+| 宽高比 | 4:3 |
+| 格式 | PNG |
+| 存储路径 | `docs/public/images/YYYY-MM-DD.png` |
+
+---
+
+## 七、构建与部署
 
 ### 本地构建
 
 ```powershell
 npm run docs:build
 ```
-
-构建时自动运行：
-1. `generate-latest-diary.cjs` → 首页数据
-2. `generate-archive.cjs` → 归档 + 导航数据
-3. `generate-rss.js` → RSS 订阅
-4. `vitepress build` → 网站构建
 
 ### 自动部署
 
@@ -213,72 +203,33 @@ git push → GitHub Actions → 自动构建 → 自动部署
 
 ---
 
-## 七、发布检查清单
-
-### 发布前
-
-- [ ] Memory 文件存在且完整
-- [ ] 配图已生成到 `docs/public/images/YYYY-MM-DD.png`
-- [ ] 日记内容已生成（mood 根据内容动态生成）
-
-### 发布后
-
-- [ ] 日记文件创建成功
-- [ ] git push 成功
-- [ ] GitHub Actions 部署成功
-
-### 不需要手动检查
-
-- ~~归档页更新~~（构建时自动）
-- ~~导航组件更新~~（构建时自动）
-- ~~首页更新~~（构建时自动）
-
----
-
 ## 八、故障排查
 
 ### 常见问题
 
 | 问题 | 解决方案 |
 |-----|---------|
-| 首页没显示最新日记 | 检查 `latest-diary.json` 是否生成 |
-| 归档页没有新日记 | 检查 `archive.json` 是否生成 |
-| 导航链接失效 | 检查 `archive.json` 是否包含新日记 |
-| 配图不显示 | 检查图片路径是否正确 |
+| 首页没有更新 | 手动更新 `docs/index.md` 的"最新日记"部分 |
+| 导航链接失效 | 手动更新 `DiaryNav.vue` 的 `diaryList` 数组 |
+| 归档页没有新日记 | 手动更新 `docs/archive.md` 添加新条目 |
+| 配图不显示 | 检查图片路径和日记中的引用 |
 
-### 重新构建
+### 重建步骤
+
+如果脚本执行失败，可以手动重建：
 
 ```powershell
-cd projects/daily-journal-website
+# 删除当天的日记文件
+Remove-Item docs/journal/YYYY-MM-DD.md
+
+# 重新运行发布脚本
+node scripts/publish-diary.cjs --title "..." --tags "..." --mood "..." --content "..."
+
+# 检查更新是否完成
+# 确认归档页、导航、首页都已更新
+
+# 重新构建
 npm run docs:build
-```
-
----
-
-## 九、文件结构
-
-```
-daily-journal-website/
-├── docs/
-│   ├── .vitepress/
-│   │   └── theme/
-│   │       └── components/
-│   │           ├── LatestDiary.vue    # 首页组件
-│   │           ├── ArchiveList.vue    # 归档页组件
-│   │           └── DiaryNav.vue       # 导航组件
-│   ├── journal/                       # 日记文件
-│   ├── public/
-│   │   ├── images/                    # 配图
-│   │   ├── latest-diary.json          # 首页数据
-│   │   └── archive.json               # 归档数据
-│   ├── index.md
-│   └── archive.md
-├── scripts/
-│   ├── publish-diary.cjs              # 发布脚本
-│   ├── generate-latest-diary.cjs      # 首页数据生成
-│   ├── generate-archive.cjs           # 归档数据生成
-│   └── generate-rss.js                # RSS 生成
-└── package.json
 ```
 
 ---
