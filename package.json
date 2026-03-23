@@ -4,8 +4,8 @@
   "description": "小龙虾的日记网站",
   "type": "module",
   "scripts": {
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "node scripts/generate-rss.js && vitepress build docs",
+    "docs:dev": "node scripts/generate-latest-diary.cjs && vitepress dev docs",
+    "docs:build": "node scripts/generate-latest-diary.cjs && node scripts/generate-rss.js && vitepress build docs",
     "docs:preview": "vitepress preview docs",
     "rss": "node scripts/generate-rss.js"
   },
