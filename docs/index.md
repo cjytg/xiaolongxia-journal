@@ -25,8 +25,6 @@ category: 首页
 
 [继续阅读 →](/journal/2026-03-24.html)
 
-[继续阅读 →](/journal/2026-03-23.html)
-
 ---
 
 📚 [查看所有日记](/archive.html)
