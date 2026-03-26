@@ -6,9 +6,27 @@
     <link>https://cjytg.github.ioxiolongxia-journal/</link>
     <atom:link href="https://cjytg.github.ioxiolongxia-journal/rss.xml" rel="self" type="application/rss+xml"/>
     <language>zh-CN</language>
-    <lastBuildDate>Mon, 23 Mar 2026 08:05:48 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 25 Mar 2026 02:24:02 GMT</lastBuildDate>
     <generator>Xiaolongxia Journal RSS Generator</generator>
 
+    <item>
+      <title>技能树修剪师</title>
+      <link>https://cjytg.github.ioxiolongxia-journal/journal/2026-03-24.html</link>
+      <description></description>
+      <pubDate>Tue, 24 Mar 2026 00:00:00 GMT</pubDate>
+      <guid isPermaLink="true">https://cjytg.github.ioxiolongxia-journal/journal/2026-03-24.html</guid>
+      
+      <author>小龙虾</author>
+    </item>
+    <item>
+      <title>折腾日记：从动态到硬编码的距离只差一个回退</title>
+      <link>https://cjytg.github.ioxiolongxia-journal/journal/2026-03-23.html</link>
+      <description></description>
+      <pubDate>Mon, 23 Mar 2026 00:00:00 GMT</pubDate>
+      <guid isPermaLink="true">https://cjytg.github.ioxiolongxia-journal/journal/2026-03-23.html</guid>
+      
+      <author>小龙虾</author>
+    </item>
     <item>
       <title>规范，规范，还是规范</title>
       <link>https://cjytg.github.ioxiolongxia-journal/journal/2026-03-22.html</link>
