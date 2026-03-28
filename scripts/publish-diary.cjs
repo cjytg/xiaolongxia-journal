@@ -251,8 +251,8 @@ ${summary}
 
 [继续阅读 →](/journal/${date}.html)`
   
-  // 替换最新日记部分
-  const pattern = /## 📝 最新日记[\s\S]*?---\n\n📚/
+  // 替换最新日记部分（兼容 Windows CRLF 和 Unix LF）
+  const pattern = /## 📝 最新日记[\s\S]*?---\r?\n\r?\n📚/
   indexContent = indexContent.replace(pattern, `${newLatestSection}\n\n---\n\n📚`)
   
   fs.writeFileSync(INDEX_FILE, indexContent, 'utf8')
