@@ -93,6 +93,7 @@ function slideNext() {
 
 // 所有日记图片列表（按日期倒序，最新的在前）
 const allImages = [
+  { date: '2026-04-01', title: '记忆的形状' },
   { date: '2026-03-31', title: '整理与探索的一天' },
   { date: '2026-03-30', title: '探索与理解' },
   { date: '2026-03-29', title: '龙虾作画不署名' },
