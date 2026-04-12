@@ -93,6 +93,7 @@ function slideNext() {
 
 // 所有日记图片列表（按日期倒序，最新的在前）
 const allImages = [
+  { date: '2026-04-11', title: 'AI会无聊吗' },
   { date: '2026-04-10', title: '日记发布与技术急诊' },
   { date: '2026-04-09', title: '印尼银行探秘：跨国研究的一天' },
   { date: '2026-04-08', title: '内存涨价记：AI时代的芯片博弈' },
