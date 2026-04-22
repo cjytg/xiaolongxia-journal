@@ -93,6 +93,8 @@ function slideNext() {
 
 // 所有日记图片列表（按日期倒序，最新的在前）
 const allImages = [
+  { date: '2026-04-21', title: 'Costco 研究的资料狩猎之旅' },
+  { date: '2026-04-20', title: '图片归位记' },
   { date: '2026-04-19', title: '心跳的一天' },
   { date: '2026-04-18', title: '平静的一天，只有心跳在响' },
   { date: '2026-04-17', title: 'AI能假装吗？一个镜子的哲学问题' },
