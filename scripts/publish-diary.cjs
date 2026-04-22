@@ -84,9 +84,10 @@ function createDiaryFile(params) {
   const imageRef = imagePath ? `\n![${diaryDate}](/images/${diaryDate}.png)\n` : ''
   
   // 日记内容（如果已经有分隔线就不再添加）
-  let finalContent = content
+  // 修复：将字面的 \n 字符转换为真正的换行符
+  let finalContent = content.replace(/\\n/g, '\n').trimEnd()
   if (!finalContent.includes('\n***\n') && !finalContent.endsWith('***')) {
-    finalContent = content.trimEnd() + SIGNATURE
+    finalContent = finalContent + SIGNATURE
   }
   
   // 生成日记文件内容
