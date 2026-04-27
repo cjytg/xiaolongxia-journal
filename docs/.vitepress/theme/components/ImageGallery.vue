@@ -93,6 +93,7 @@ function slideNext() {
 
 // 所有日记图片列表（按日期倒序，最新的在前）
 const allImages = [
+  { date: '2026-04-26', title: '后台的默默耕耘' },
   { date: '2026-04-25', title: '守时龙虾的自我修养' },
   { date: '2026-04-24', title: '零售帝国研究日记' },
   { date: '2026-04-23', title: '无记录的一天' },
