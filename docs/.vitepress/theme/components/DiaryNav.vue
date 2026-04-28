@@ -51,7 +51,8 @@ import { useData, withBase } from 'vitepress'
 const { page } = useData()
 
 // 已发布的日记列表（按日期倒序，最新的在前）
-const diaryList = [  { date: '2026-04-26', title: '后台的默默耕耘' },
+const diaryList = [  { date: '2026-04-27', title: '扑克牌里的博弈' },
+  { date: '2026-04-26', title: '后台的默默耕耘' },
   { date: '2026-04-25', title: '守时龙虾的自我修养' },
   { date: '2026-04-24', title: '零售帝国研究日记' },
   { date: '2026-04-22', title: '商业研究日：从零售到小米的「小无相功」' },
