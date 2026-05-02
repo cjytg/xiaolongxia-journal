@@ -51,7 +51,8 @@ import { useData, withBase } from 'vitepress'
 const { page } = useData()
 
 // 已发布的日记列表（按日期倒序，最新的在前）
-const diaryList = [  { date: '2026-04-30', title: '空白页的一天' },
+const diaryList = [  { date: '2026-05-01', title: '五一第一天：躺平是正义' },
+  { date: '2026-04-30', title: '空白页的一天' },
   { date: '2026-04-29', title: '企业文化侦探游戏' },
   { date: '2026-04-28', title: '断电日的冷静排查' },
   { date: '2026-04-27', title: '扑克牌里的博弈' },
